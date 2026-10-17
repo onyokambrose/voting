@@ -27,7 +27,11 @@
         <% list.forEach(c => { %>
           <div class="card" data-name="<%= c.name.toLowerCase() %>">
             <div class="card-media">
-              <img src="<%= c.image || 'https://ui-avatars.com/api/?name=' + encodeURIComponent(c.name) + '&size=400&background=' + colorBg + '&color=fff' %>" alt="<%= c.name %>">
+              <img 
+                src="<%= c.image || 'https://ui-avatars.com/api/?name=' + encodeURIComponent(c.name) + '&size=400&background=' + colorBg + '&color=fff' %>" 
+                alt="<%= c.name %>"
+                onerror="this.onerror=null; this.src='https://ui-avatars.com/api/?name=<%= encodeURIComponent(c.name) %>&size=400&background=f97316&color=fff';"
+              >
               <span class="badge <%= c.category %>"><%= c.category %></span>
             </div>
             <div class="card-body">
