@@ -1,0 +1,153 @@
+﻿<%
+  const totalVotes = contestants.reduce((s, c) => s + c.votes, 0);
+  const mrs = contestants.filter(c => c.category === 'Mr').length;
+  const misss = contestants.filter(c => c.category === 'Miss').length;
+  const leader = contestants.slice().sort((a, b) => b.votes - a.votes)[0];
+%>
+
+<!-- STATS -->
+<div class="stats-grid">
+  <div class="stat-card">
+    <div class="stat-icon">👥</div>
+    <div>
+      <p class="stat-num"><%= contestants.length %></p>
+      <p class="stat-label">Contestants</p>
+    </div>
+  </div>
+  <div class="stat-card">
+    <div class="stat-icon">🗳️</div>
+    <div>
+      <p class="stat-num"><%= totalVotes %></p>
+      <p class="stat-label">Total Votes</p>
+    </div>
+  </div>
+  <div class="stat-card">
+    <div class="stat-icon">🏆</div>
+    <div>
+      <p class="stat-num"><%= leader ? leader.name : '—' %></p>
+      <p class="stat-label">Leader</p>
+    </div>
+  </div>
+  <div class="stat-card">
+    <div class="stat-icon">⚖️</div>
+    <div>
+      <p class="stat-num"><%= mrs %> / <%= misss %></p>
+      <p class="stat-label">Mr / Miss</p>
+    </div>
+  </div>
+</div>
+
+<!-- BRANDING -->
+<div class="panel" style="margin-bottom:1.5rem;">
+  <div class="panel-header">
+    <h2>🎨 Branding &amp; Logo</h2>
+  </div>
+  <form method="POST" action="/admin/branding" class="form-grid">
+    <label>
+      <span>Site Name</span>
+      <input name="site_name" value="<%= settings.site_name || 'Mr & Miss' %>" placeholder="Mr & Miss">
+    </label>
+    <label>
+      <span>Tagline</span>
+      <input name="site_tagline" value="<%= settings.site_tagline || '' %>" placeholder="Vote for the next Mr & Miss">
+    </label>
+    <label>
+      <span>Logo Emoji (used if no image)</span>
+      <input name="logo_emoji" value="<%= settings.logo_emoji || '👑' %>" placeholder="👑" maxlength="4">
+    </label>
+    <label>
+      <span>Logo Image URL (optional, overrides emoji)</span>
+      <input name="logo_image" value="<%= settings.logo_image || '' %>" placeholder="https://...">
+    </label>
+    <div class="full form-actions">
+      <button type="submit" class="btn btn-primary">Save Branding</button>
+    </div>
+  </form>
+</div>
+
+<!-- VOTING ROUND -->
+<div class="panel" style="margin-bottom:1.5rem;">
+  <div class="panel-header">
+    <h2>⏰ Voting Round</h2>
+  </div>
+  <form method="POST" action="/admin/settings" class="form-grid">
+    <label>
+      <span>Opens At</span>
+      <input type="datetime-local" name="vote_opens_at" value="<%= (settings.vote_opens_at || '').slice(0,16) %>">
+    </label>
+    <label>
+      <span>Closes At</span>
+      <input type="datetime-local" name="vote_closes_at" value="<%= (settings.vote_closes_at || '').slice(0,16) %>">
+    </label>
+    <div class="full form-actions">
+      <button type="submit" class="btn btn-primary">Save Round Times</button>
+    </div>
+  </form>
+</div>
+
+<!-- CONTESTANTS -->
+<div class="panel" style="margin-bottom:1.5rem;">
+  <div class="panel-header">
+    <h2>All Contestants</h2>
+    <div class="panel-actions">
+      <a href="/admin/contestants/new" class="btn btn-primary btn-sm">+ Add</a>
+      <a href="/admin/export/contestants.csv" class="btn btn-ghost btn-sm">⬇ CSV</a>
+      <form method="POST" action="/admin/reset" onsubmit="return confirm('Reset ALL votes?')" style="display:inline">
+        <button class="btn btn-danger btn-sm" type="submit">Reset Votes</button>
+      </form>
+    </div>
+  </div>
+  <div class="table-wrap">
+    <table class="data-table">
+      <thead>
+        <tr><th></th><th>Name</th><th>Category</th><th>Votes</th><th></th></tr>
+      </thead>
+      <tbody>
+        <% contestants.forEach(c => { %>
+          <tr>
+            <td><img class="avatar" src="<%= c.image || 'https://ui-avatars.com/api/?name=' + encodeURIComponent(c.name) + '&size=80&background=0ea5e9&color=fff' %>" alt=""></td>
+            <td>
+              <strong><%= c.name %></strong>
+              <div class="muted small"><%= c.bio || '—' %></div>
+            </td>
+            <td><span class="badge <%= c.category %>"><%= c.category %></span></td>
+            <td><strong><%= c.votes %></strong></td>
+            <td>
+              <form method="POST" action="/admin/contestants/<%= c.id %>/delete" onsubmit="return confirm('Delete <%= c.name %>?')" style="display:inline">
+                <button class="btn btn-danger btn-xs" type="submit">Delete</button>
+              </form>
+            </td>
+          </tr>
+        <% }) %>
+        <% if (contestants.length === 0) { %>
+          <tr><td colspan="5" class="empty">No contestants yet.</td></tr>
+        <% } %>
+      </tbody>
+    </table>
+  </div>
+</div>
+
+<!-- RECENT VOTERS -->
+<div class="panel">
+  <div class="panel-header">
+    <h2>Recent Voters</h2>
+    <a href="/admin/export/votes.csv" class="btn btn-ghost btn-sm">⬇ Export All Votes (CSV)</a>
+  </div>
+  <div class="table-wrap">
+    <table class="data-table">
+      <thead><tr><th>Email</th><th>Date</th><th>Votes</th></tr></thead>
+      <tbody>
+        <% recentVoters.forEach(v => { %>
+          <tr>
+            <td><%= v.email %></td>
+            <td><%= v.vote_date %></td>
+            <td><%= v.total %></td>
+          </tr>
+        <% }) %>
+        <% if (recentVoters.length === 0) { %>
+          <tr><td colspan="3" class="empty">No votes yet.</td></tr>
+        <% } %>
+      </tbody>
+    </table>
+  </div>
+</div>

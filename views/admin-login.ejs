@@ -1,0 +1,56 @@
+﻿<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Admin Login</title>
+  <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700;800&display=swap" rel="stylesheet">
+  <link rel="stylesheet" href="/css/admin.css">
+  <style>
+    body { min-height: 100vh; display: grid; place-items: center; background: #0f172a; padding: 1.5rem; }
+    .login-card {
+      background: #1e293b; padding: 2.5rem; border-radius: 20px;
+      width: 100%; max-width: 400px; text-align: center;
+      border: 1px solid #334155; box-shadow: 0 30px 60px rgba(0,0,0,0.4);
+      color: #f1f5f9;
+    }
+    .login-brand { display: flex; justify-content: center; margin-bottom: 1.25rem; }
+    .login-brand .logo-mark { width: 56px; height: 56px; font-size: 1.6rem; }
+    .login-card h1 { font-size: 1.5rem; margin-bottom: 0.35rem; }
+    .login-card p { color: #94a3b8; font-size: 0.9rem; }
+    .login-card form { margin-top: 1.75rem; display: flex; flex-direction: column; gap: 1rem; text-align: left; }
+    .login-card span { font-size: 0.85rem; font-weight: 600; color: #cbd5e1; }
+    .login-card input {
+      background: #0f172a; border-color: #334155; color: white;
+    }
+    .login-card input:focus { border-color: #10b981; box-shadow: 0 0 0 3px rgba(16,185,129,0.15); }
+    .login-card .back-link { display: block; margin-top: 1.25rem; color: #94a3b8; font-size: 0.85rem; }
+    .login-card .back-link:hover { color: white; }
+    .alert { padding: 0.75rem 1rem; border-radius: 10px; font-size: 0.88rem; margin-top: 1rem; }
+    .alert-error { background: rgba(244,63,94,0.15); color: #fda4af; border: 1px solid rgba(244,63,94,0.3); }
+  </style>
+</head>
+<body>
+  <div class="login-card">
+    <div class="login-brand"><span class="logo-mark">M</span></div>
+    <h1>Admin Sign In</h1>
+    <p>Manage contestants and monitor votes.</p>
+
+    <% if (error) { %><div class="alert alert-error"><%= error %></div><% } %>
+
+    <form method="POST" action="/admin/login">
+      <label>
+        <span>Username</span>
+        <input name="username" placeholder="ambrose" required autocomplete="username">
+      </label>
+      <label>
+        <span>Password</span>
+        <input name="password" type="password" placeholder="••••••••" required autocomplete="current-password">
+      </label>
+      <button type="submit" class="btn btn-primary btn-block">Sign In</button>
+    </form>
+
+    <a href="/" class="back-link">← Back to site</a>
+  </div>
+</body>
+</html>

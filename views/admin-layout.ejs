@@ -1,0 +1,48 @@
+﻿<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title><%= typeof title !== 'undefined' ? title : 'Admin' %> · Mr & Miss</title>
+  <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700;800&display=swap" rel="stylesheet">
+  <link rel="stylesheet" href="/css/admin.css">
+</head>
+<body class="admin-body">
+  <aside class="sidebar">
+    <div class="sidebar-brand">
+      <span class="logo-mark">M</span>
+      <div>
+        <strong>Mr &amp; Miss</strong>
+        <small>Control Panel</small>
+      </div>
+    </div>
+    <nav class="sidebar-nav">
+      <a href="/admin/dashboard" class="<%= current === 'dashboard' ? 'active' : '' %>">
+        <span>📊</span> Dashboard
+      </a>
+      <a href="/admin/contestants/new" class="<%= current === 'new' ? 'active' : '' %>">
+        <span>➕</span> Add Contestant
+      </a>
+      <a href="/" target="_blank">
+        <span>🌐</span> View Site
+      </a>
+    </nav>
+    <div class="sidebar-footer">
+      <a href="/admin/logout" class="btn-logout">Logout</a>
+    </div>
+  </aside>
+
+  <main class="admin-main">
+    <header class="admin-header">
+      <h1><%= typeof title !== 'undefined' ? title : 'Dashboard' %></h1>
+      <div class="admin-user">👤 <%= user || 'ambrose' %></div>
+    </header>
+    <div class="admin-content">
+      <%- body %>
+    </div>
+  </main>
+
+  <div id="toast" class="toast"></div>
+  <script src="/js/admin.js"></script>
+</body>
+</html>

@@ -1,0 +1,44 @@
+﻿<!DOCTYPE html>
+<html lang="en" data-theme="light">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title><%= typeof title !== 'undefined' ? title : 'Mr & Miss Voting' %></title>
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700;800&family=Playfair+Display:wght@700;800;900&display=swap" rel="stylesheet">
+  <link rel="stylesheet" href="/css/style.css">
+</head>
+<body class="public-body">
+  <header class="site-header">
+    <div class="container header-inner">
+      <a href="/" class="logo">
+        <span class="logo-mark">M</span>
+        <span class="logo-text">Mr &amp; Miss</span>
+      </a>
+      <nav class="site-nav">
+        <a href="/">Home</a>
+        <a href="/contestants">Contestants</a>
+        <a href="/results">Results</a>
+        <button id="theme-toggle" class="theme-toggle" aria-label="Toggle dark mode">
+          <span class="sun">☀</span>
+          <span class="moon">🌙</span>
+        </button>
+      </nav>
+    </div>
+  </header>
+
+  <main class="site-main">
+    <%- body %>
+  </main>
+
+  <footer class="site-footer">
+    <div class="container">
+      <p>&copy; <%= new Date().getFullYear() %> Mr &amp; Miss Voting. Made with ❤️</p>
+    </div>
+  </footer>
+
+  <canvas id="confetti-canvas"></canvas>
+  <div id="toast" class="toast"></div>
+  <script src="/js/main.js"></script>
+</body>
+</html>

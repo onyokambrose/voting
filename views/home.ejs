@@ -1,0 +1,88 @@
+﻿<%
+  const totalVotes = contestants.reduce((s, c) => s + c.votes, 0);
+  const sorted = contestants.slice().sort((a, b) => b.votes - a.votes);
+  const hotIds = sorted.slice(0, 2).map(c => c.id);
+%>
+
+<section class="hero">
+  <div class="container hero-inner">
+    <span class="hero-badge">✨ Live Voting Open</span>
+    <h1 class="hero-title">
+      Vote for the next
+      <span class="gradient-text">Mr &amp; Miss</span>
+    </h1>
+    <p class="hero-subtitle">
+      Your vote decides who takes the crown. Browse the contestants, pick your favorites, and watch the leaderboard update live.
+    </p>
+
+    <% if (status && status.closes) { %>
+      <div class="countdown" data-deadline="<%= status.closes %>">
+        <div class="countdown-item"><span class="cd-num" data-days>00</span><span class="cd-lbl">Days</span></div>
+        <div class="countdown-item"><span class="cd-num" data-hours>00</span><span class="cd-lbl">Hours</span></div>
+        <div class="countdown-item"><span class="cd-num" data-mins>00</span><span class="cd-lbl">Mins</span></div>
+        <div class="countdown-item"><span class="cd-num" data-secs>00</span><span class="cd-lbl">Secs</span></div>
+      </div>
+    <% } %>
+
+    <% if (status && !status.open) { %>
+      <div class="alert-lock">⏳ <%= status.reason %></div>
+    <% } %>
+
+    <div class="hero-actions">
+      <a href="/contestants" class="btn btn-primary">Start Voting</a>
+      <a href="/results" class="btn btn-ghost">View Results</a>
+    </div>
+
+    <div class="hero-stats">
+      <div class="stat">
+        <span class="stat-num" data-live-contestants><%= contestants.length %></span>
+        <span class="stat-label">Contestants</span>
+      </div>
+      <div class="stat">
+        <span class="stat-num" data-live-votes><%= totalVotes %></span>
+        <span class="stat-label">Total Votes</span>
+      </div>
+      <div class="stat">
+        <span class="stat-num">2</span>
+        <span class="stat-label">Categories</span>
+      </div>
+    </div>
+  </div>
+</section>
+
+<section class="section">
+  <div class="container">
+    <div class="section-head">
+      <div>
+        <h2 class="section-title">Featured Contestants</h2>
+        <p class="section-sub">Meet some of the amazing people competing this year.</p>
+      </div>
+      <a href="/contestants" class="btn btn-ghost btn-sm">View all →</a>
+    </div>
+
+    <div class="grid">
+      <% contestants.slice(0, 6).forEach(c => { %>
+        <div class="card">
+          <div class="card-media">
+            <img src="<%= c.image || 'https://ui-avatars.com/api/?name=' + encodeURIComponent(c.name) + '&size=400&background=6366f1&color=fff' %>" alt="<%= c.name %>">
+            <span class="badge <%= c.category %>"><%= c.category %></span>
+            <% if (hotIds.includes(c.id) && c.votes > 0) { %>
+              <span class="hot-badge">🔥 Hot</span>
+            <% } %>
+          </div>
+          <div class="card-body">
+            <h3 class="card-title"><%= c.name %></h3>
+            <p class="card-bio"><%= c.bio || 'No bio yet.' %></p>
+            <div class="card-footer">
+              <span class="votes-count" data-id="<%= c.id %>"><%= c.votes %> votes</span>
+              <a href="/contestants" class="link-arrow">Vote →</a>
+            </div>
+          </div>
+        </div>
+      <% }) %>
+      <% if (contestants.length === 0) { %>
+        <p class="empty">No contestants yet. Check back soon!</p>
+      <% } %>
+    </div>
+  </div>
+</section>

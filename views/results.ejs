@@ -1,0 +1,57 @@
+﻿<section class="page-header">
+  <div class="container">
+    <h1>🏆 Live Results</h1>
+    <p>Auto-updating in real time · Last refresh <span id="last-refresh">now</span></p>
+  </div>
+</section>
+
+<% if (status && !status.open) { %>
+  <div class="container" style="margin-top:1.5rem;">
+    <div style="background:#fef2f2;color:#b91c1c;padding:1rem 1.25rem;border-radius:12px;border:1px solid #fecaca;">
+      ⏳ <strong><%= status.reason %></strong>
+      <% if (status.closes) { %> · Voting period: <%= new Date(status.opens).toLocaleString() %> → <%= new Date(status.closes).toLocaleString() %><% } %>
+    </div>
+  </div>
+<% } %>
+
+<section class="section">
+  <div class="container">
+    <% const top = contestants.slice(0, 3); %>
+    <% if (top.length) { %>
+      <div class="podium">
+        <% top.forEach((c, i) => { %>
+          <div class="podium-card rank-<%= i + 1 %>">
+            <div class="podium-crown"><%= i === 0 ? '👑' : (i === 1 ? '🥈' : '🥉') %></div>
+            <div class="podium-rank">#<%= i + 1 %></div>
+            <img src="<%= c.image || 'https://ui-avatars.com/api/?name=' + encodeURIComponent(c.name) + '&size=200&background=6366f1&color=fff' %>" alt="<%= c.name %>">
+            <h3><%= c.name %></h3>
+            <span class="badge <%= c.category %>"><%= c.category %></span>
+            <p class="podium-votes"><span data-votes-id="<%= c.id %>"><%= c.votes %></span> votes</p>
+          </div>
+        <% }) %>
+      </div>
+    <% } %>
+
+    <div class="table-wrap">
+      <table class="data-table">
+        <thead>
+          <tr><th>Rank</th><th>Name</th><th>Category</th><th>Votes</th><th></th></tr>
+        </thead>
+        <tbody id="results-body">
+          <% contestants.forEach((c, i) => { %>
+            <tr data-id="<%= c.id %>">
+              <td><span class="rank-pill"><%= i + 1 %></span></td>
+              <td><strong><%= c.name %></strong></td>
+              <td><span class="badge <%= c.category %>"><%= c.category %></span></td>
+              <td><span data-votes-id="<%= c.id %>"><%= c.votes %></span></td>
+              <td><div class="bar-wrap"><div class="bar" style="width: <%= Math.min(100, (c.votes / Math.max(1, contestants[0]?.votes || 1)) * 100) %>%"></div></div></td>
+            </tr>
+          <% }) %>
+          <% if (contestants.length === 0) { %>
+            <tr><td colspan="5" class="empty">No contestants yet.</td></tr>
+          <% } %>
+        </tbody>
+      </table>
+    </div>
+  </div>
+</section>
