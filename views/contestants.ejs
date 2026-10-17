@@ -1,9 +1,9 @@
-﻿<section class="page-header">
+<section class="page-header">
   <div class="container">
     <h1>Meet the Contestants</h1>
     <p>Vote once per day per email. Verified in seconds.</p>
     <div class="search-wrap">
-      <input type="text" id="search" placeholder="🔍 Search by name..." autocomplete="off">
+      <input type="text" id="search" placeholder="?? Search by name..." autocomplete="off">
     </div>
   </div>
 </section>
@@ -11,8 +11,8 @@
 <% if (!status.open) { %>
   <div class="container" style="margin-top:1.5rem;">
     <div class="alert alert-error" style="background:#fef2f2;color:#b91c1c;padding:1rem 1.25rem;border-radius:12px;border:1px solid #fecaca;">
-      ⏳ <strong><%= status.reason %></strong>
-      <% if (status.closes) { %> · Closes <%= new Date(status.closes).toLocaleString() %><% } %>
+      ? <strong><%= status.reason %></strong>
+      <% if (status.closes) { %> � Closes <%= new Date(status.closes).toLocaleString() %><% } %>
     </div>
   </div>
 <% } %>
@@ -40,7 +40,7 @@
               <div class="card-footer">
                 <span class="votes-count" data-id="<%= c.id %>"><%= c.votes %> votes</span>
                 <div class="card-btns">
-                  <button class="icon-btn" onclick="shareContestant('<%= c.name %>', <%= c.id %>)" title="Share">🔗</button>
+                  <button class="icon-btn" onclick="shareContestant('<%= c.name %>', <%= c.id %>)" title="Share">??</button>
                   <button class="btn btn-primary btn-sm" onclick="vote(<%= c.id %>)" <%= status.open ? '' : 'disabled' %>>Vote</button>
                 </div>
               </div>
@@ -69,7 +69,7 @@
 <!-- Email modal -->
 <div id="email-modal" class="modal-backdrop" style="display:none;">
   <div class="modal">
-    <button class="modal-close" onclick="closeEmailModal()">×</button>
+    <button class="modal-close" onclick="closeEmailModal()">�</button>
     <h2>One vote per day</h2>
     <p class="muted">Enter your email. We'll send a 6-digit code to confirm your vote.</p>
     <div class="form" style="margin-top:1.25rem;">
@@ -77,7 +77,7 @@
       <button class="btn btn-primary btn-block" onclick="sendOtp()">Send Code</button>
     </div>
     <p class="muted small" style="margin-top:1rem;text-align:center;">
-      🔒 We only use your email to prevent duplicate votes.
+      ?? We only use your email to prevent duplicate votes.
     </p>
   </div>
 </div>

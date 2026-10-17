@@ -1,4 +1,4 @@
-﻿<%
+<%
   const totalVotes = contestants.reduce((s, c) => s + c.votes, 0);
   const sorted = contestants.slice().sort((a, b) => b.votes - a.votes);
   const hotIds = sorted.slice(0, 2).map(c => c.id);
@@ -6,7 +6,7 @@
 
 <section class="hero">
   <div class="container hero-inner">
-    <span class="hero-badge">✨ Live Voting Open</span>
+    <span class="hero-badge">? Live Voting Open</span>
     <h1 class="hero-title">
       Vote for the next
       <span class="gradient-text">Mr &amp; Miss</span>
@@ -53,7 +53,7 @@
         <h2 class="section-title">Featured Contestants</h2>
         <p class="section-sub">Meet some of the amazing people competing this year.</p>
       </div>
-      <a href="/contestants" class="btn btn-ghost btn-sm">View all →</a>
+      <a href="/contestants" class="btn btn-ghost btn-sm">View all ?</a>
     </div>
 
     <div class="grid">
@@ -67,7 +67,7 @@
             >
             <span class="badge <%= c.category %>"><%= c.category %></span>
             <% if (hotIds.includes(c.id) && c.votes > 0) { %>
-              <span class="hot-badge">🔥 Hot</span>
+              <span class="hot-badge">?? Hot</span>
             <% } %>
           </div>
           <div class="card-body">
@@ -75,7 +75,7 @@
             <p class="card-bio"><%= c.bio || 'No bio yet.' %></p>
             <div class="card-footer">
               <span class="votes-count" data-id="<%= c.id %>"><%= c.votes %> votes</span>
-              <a href="/contestants" class="link-arrow">Vote →</a>
+              <a href="/contestants" class="link-arrow">Vote ?</a>
             </div>
           </div>
         </div>
