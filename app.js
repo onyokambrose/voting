@@ -3,10 +3,17 @@ const express = require('express');
 const session = require('express-session');
 const expressLayouts = require('express-ejs-layouts');
 const path = require('path');
+const fs = require('fs');
 const sqlite3 = require('sqlite3').verbose();
 
+// Ensure the data directory exists before opening the database
+const dataDir = path.join(__dirname, 'data');
+if (!fs.existsSync(dataDir)) {
+  fs.mkdirSync(dataDir, { recursive: true });
+}
+
 const app = express();
-const db = new sqlite3.Database('./data/voting.db');
+const db = new sqlite3.Database(path.join(dataDir, 'voting.db'));
 
 db.serialize(() => {
   db.run(
@@ -90,4 +97,4 @@ app.use('/', require('./routes/index')(db));
 app.use('/admin', require('./routes/admin')(db));
 
 const PORT = process.env.PORT || 3000;
-app.listen(PORT, () => console.log('✅ Server running on http://localhost:' + PORT));
+app.listen(PORT, '0.0.0.0', () => console.log('✅ Server running on port ' + PORT));
